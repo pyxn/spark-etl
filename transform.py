@@ -134,7 +134,7 @@ def add_derived_date_columns(df: DataFrame) -> DataFrame:
 
     return df
 
-def main_pathmatics():
+def main_pathmatics() -> DataFrame:
     # Directory containing the data
     data_dir = config.get('Paths', 'DataDir')
 
@@ -188,9 +188,9 @@ def main_pathmatics():
 
     # Write to CSV
     if df is not None:
-        write_to_csv(df, config.get('Paths', 'OutputPathmatics'))
+        return df
 
-def main_vivvix():
+def main_vivvix() -> DataFrame:
     # Directory containing the data
     data_dir = config.get('Paths', 'DataDir')
 
@@ -221,8 +221,8 @@ def main_vivvix():
         },
         {
             "lookup_table": 'AirlineLookupTable', 
-            "df_join_column": "airline_id", 
-            "lookup_df_join_column": "", 
+            "df_join_column": "airline_name", 
+            "lookup_df_join_column": "airline_id", 
             "join_type": "left_outer"
         },
         {
@@ -249,10 +249,17 @@ def main_vivvix():
 
     # Write to CSV
     if df is not None:
-        write_to_csv(df, config.get('Paths', 'OutputVivvix'))
+        return df
 
 if __name__ == "__main__":
-    main_pathmatics()
-    main_vivvix()
+
+    pathmatics = main_pathmatics()
+    write_to_csv(pathmatics, config.get('Paths', 'OutputPathmatics'))
+    print("OUTPUT PATHMATICS DATA SUCCESSFULLY.\n")
+
+    vivvix = main_vivvix()
+    write_to_csv(vivvix, config.get('Paths', 'OutputVivvix'))
+    print("OUTPUT VIVVIX DATA SUCCESSFULLY.\n")
+
     # Stop the SparkSession
     spark.stop()
