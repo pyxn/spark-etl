@@ -186,7 +186,6 @@ def main_pathmatics() -> DataFrame:
     df = add_derived_date_columns(df)
     dataframe_stats(df)
 
-    # Write to CSV
     if df is not None:
         return df
 
@@ -247,7 +246,11 @@ def main_vivvix() -> DataFrame:
         print(f"\033[92mThe DataFrame has been successfully joined.\033[0m")
         dataframe_stats(df)
 
-    # Write to CSV
+    # Filter duplicated Vivvix national data
+    df = df.filter(df.region_id != "National")  # Exclude rows where region_id is "National"
+    print(f"\033[92mThe DataFrame has been successfully filtered.\033[0m")
+    dataframe_stats(df)
+
     if df is not None:
         return df
 
